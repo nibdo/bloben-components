@@ -71,6 +71,7 @@ import Settings from './settings';
 import Share from './share';
 import SkipBack from './skip-back';
 import Square from './square';
+import SquareCheck from './squareCheck';
 import Star from './star';
 import StarFilled from './star-filled';
 import Sun from './sun';
@@ -140,4 +141,5 @@ export const EvaIcons = {
   RadioOn,
   RadioOff,
   Copy,
+  SquareCheck,
 };
