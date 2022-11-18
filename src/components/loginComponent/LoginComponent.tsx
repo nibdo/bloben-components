@@ -1,12 +1,15 @@
 import {
   Button,
   Center,
+  Checkbox,
   Container,
+  Flex,
   FormControl,
   FormLabel,
   Heading,
   InputGroup,
   InputRightElement,
+  Text,
 } from '@chakra-ui/react';
 import { Context, StoreContext } from '../../context/store';
 import ChakraInput from '../chakraCustom/ChakraInput';
@@ -19,11 +22,13 @@ interface LoginComponentProps {
   onSubmitTwoFactorLogin: (
     username: string,
     password: string,
-    otpCode: string
+    otpCode: string,
+    trustBrowser: boolean
   ) => void;
   twoFactorVisible: boolean;
   isLoading: boolean;
   title?: string;
+  enableTrustBrowser?: boolean;
 }
 const LoginComponent = (props: LoginComponentProps) => {
   const {
@@ -32,11 +37,13 @@ const LoginComponent = (props: LoginComponentProps) => {
     onSubmitTwoFactorLogin,
     isLoading,
     title,
+    enableTrustBrowser,
   } = props;
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [otpCode, setOtpCode] = useState('');
+  const [trustBrowser, setTrustBrowser] = useState(false);
 
   const [store]: [StoreContext, any] = useContext(Context);
 
@@ -60,7 +67,7 @@ const LoginComponent = (props: LoginComponentProps) => {
   const login = () => onSubmitLogin(username, password);
 
   const submitTwoFactorCode = async () => {
-    onSubmitTwoFactorLogin(username, password, otpCode);
+    onSubmitTwoFactorLogin(username, password, otpCode, trustBrowser);
   };
 
   return (
@@ -155,6 +162,20 @@ const LoginComponent = (props: LoginComponentProps) => {
               />
             </FormControl>
             <Separator height={40} />
+            {twoFactorVisible && enableTrustBrowser ? (
+              <>
+                <Flex direction={'row'}>
+                  <Checkbox
+                    onChange={() => setTrustBrowser(!trustBrowser)}
+                    isChecked={trustBrowser}
+                    size={'lg'}
+                  />
+                  <Separator width={24} />
+                  <Text>Trust this browser</Text>
+                </Flex>
+                <Separator height={40} />
+              </>
+            ) : null}
             <Center flexDirection={'column'}>
               <PrimaryButton
                 isLoading={isLoading}
